@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StrengthPasswordView">
+        <attr name="cv_strength_count_size" format="integer" />
+        <attr name="cv_strength_bar_radius" format="integer" />
+        <attr name="cv_strength_bar_width" format="integer" />
+        <attr name="cv_strength_bar_spacer_size" format="integer" />
+        <attr name="cv_strength_text_height_value" format="integer" />
+        <attr name="cv_strength_text_start_padding" format="float" />
+        <attr name="cv_strength_bar_height" format="float" />
+    </declare-styleable>
+</resources>
