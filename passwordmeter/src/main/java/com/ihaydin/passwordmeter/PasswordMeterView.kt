@@ -14,17 +14,17 @@ import kotlin.math.max
 
 class PasswordMeterView : View {
     private var paint: Paint? = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var mStrengthBarRadius = 0
-    private var mStrengthBarsTintColor = 0
-    private var mStrengthBarWidth = 0
-    private var mStrengthBarSpacer = 0
-    private var mStrengthCountSize = 0
-    private var mStrengthTextHeight = 0
-    private var mStrengthSelectedIndex = 0
-    private var mTextPaddingStart = 0f
-    private var mStrengthBarHeight = 0f;
-    private var mTextFontStyle = ""
-    private var mList = listOf<State>()
+    private var barRadius = 0
+    private var barsTintColor = 0
+    private var barWidth = 0
+    private var barSpace = 0
+    private var barCountSize = 0
+    private var textHeight = 0
+    private var selectedIndex = 0
+    private var textPaddingStart = 0f
+    private var barHeight = 0f;
+    private var textFontStyle = ""
+    private var list = listOf<State>()
 
     private val density = resources.displayMetrics.density
 
@@ -35,39 +35,39 @@ class PasswordMeterView : View {
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
-        val TEXT_HEIGHT = mStrengthTextHeight * density
-        val SPACER = mStrengthBarSpacer
-        val WIDTH = mStrengthBarWidth * density
+        val TEXT_HEIGHT = textHeight * density
+        val SPACER = barSpace
+        val WIDTH = barWidth * density
 
         val r = Rect()
         canvas.getClipBounds(r)
 
-        for (i in 0 until mStrengthCountSize) {
+        for (i in 0 until barCountSize) {
             paint?.textSize = TEXT_HEIGHT
-            paint?.setTypeface(Typeface.createFromAsset(context.assets, mTextFontStyle))
-            if (i < mList[mStrengthSelectedIndex].tintSize) {
-                paint?.color = mList[mStrengthSelectedIndex].color
+            paint?.setTypeface(Typeface.createFromAsset(context.assets, textFontStyle))
+            if (i < list[selectedIndex].tintSize) {
+                paint?.color = list[selectedIndex].color
             } else {
-                paint?.color = resources.getColor(mStrengthBarsTintColor)
+                paint?.color = resources.getColor(barsTintColor)
             }
 
             canvas.drawRoundRect(
                 RectF(
                     (i * WIDTH + SPACER * i),
-                    r.height() / 2f - mStrengthBarHeight,
+                    r.height() / 2f - barHeight,
                     ((i + 1) * WIDTH + i * SPACER),
-                    r.height() / 2f + mStrengthBarHeight
-                ), mStrengthBarRadius.toFloat(), mStrengthBarRadius.toFloat(), paint!!
+                    r.height() / 2f + barHeight
+                ), barRadius.toFloat(), barRadius.toFloat(), paint!!
             )
 
 
-            if (i == mStrengthCountSize - 1) {
-                paint?.color = mList[mStrengthSelectedIndex].color
+            if (i == barCountSize - 1) {
+                paint?.color = list[selectedIndex].color
                 drawText(
                     canvas,
                     paint!!,
-                    mList[mStrengthSelectedIndex].text,
-                    maxWidth + mTextPaddingStart + ((i + 1) * WIDTH + (i + 1) * SPACER)
+                    list[selectedIndex].text,
+                    maxWidth + textPaddingStart + ((i + 1) * WIDTH + (i + 1) * SPACER)
                 )
             }
         }
@@ -97,14 +97,14 @@ class PasswordMeterView : View {
 
         val bounds = Rect()
         paint?.getTextBounds(
-            mList[mStrengthSelectedIndex].text,
+            list[selectedIndex].text,
             0,
-            mList[mStrengthSelectedIndex].text.length,
+            list[selectedIndex].text.length,
             bounds
         )
 
         val desiredWidth =
-            (mStrengthCountSize) * (mStrengthBarWidth * density + mStrengthBarSpacer) + getMaxTextWidth() + mTextPaddingStart
+            (barCountSize) * (barWidth * density + barSpace) + getMaxTextWidth() + textPaddingStart
         val desiredHeight = getMaxTextHeight()
 
         val widthResult = when (widthMode) {
@@ -139,25 +139,25 @@ class PasswordMeterView : View {
         val values =
             context.theme.obtainStyledAttributes(attrs, R.styleable.StrengthPasswordView, 0, 0)
 
-        mStrengthCountSize = values.getInt(R.styleable.StrengthPasswordView_cv_strength_count_size,5)
-        mStrengthBarRadius = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_radius, 20)
-        mStrengthBarWidth = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_width, 10)
-        mStrengthBarSpacer = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_spacer_size, 6)
-        mStrengthTextHeight = values.getInt(R.styleable.StrengthPasswordView_cv_strength_text_height_value, 14)
-        mTextPaddingStart = values.getFloat(R.styleable.StrengthPasswordView_cv_strength_text_start_padding, 8f)
-        mStrengthBarHeight = values.getFloat(R.styleable.StrengthPasswordView_cv_strength_bar_height, 3f)
+        barCountSize = values.getInt(R.styleable.StrengthPasswordView_cv_strength_count_size,5)
+        barRadius = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_radius, 20)
+        barWidth = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_width, 10)
+        barSpace = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_spacer_size, 6)
+        textHeight = values.getInt(R.styleable.StrengthPasswordView_cv_strength_text_height_value, 14)
+        textPaddingStart = values.getFloat(R.styleable.StrengthPasswordView_cv_strength_text_start_padding, 8f)
+        barHeight = values.getFloat(R.styleable.StrengthPasswordView_cv_strength_bar_height, 3f)
 
         values.recycle()
     }
 
     private fun getMaxTextHeight(): Int {
         var maxHeight = 0
-        mList.forEachIndexed { index, state ->
+        list.forEachIndexed { index, state ->
             val bounds = Rect()
             paint?.getTextBounds(
-                mList[index].text,
+                list[index].text,
                 0,
-                mList[index].text.length,
+                list[index].text.length,
                 bounds
             )
             maxHeight = max(maxHeight, bounds.height())
@@ -168,12 +168,12 @@ class PasswordMeterView : View {
     var maxWidth = 0
     private fun getMaxTextWidth(): Int {
 
-        mList.forEachIndexed { index, state ->
+        list.forEachIndexed { index, state ->
             val bounds = Rect()
             paint?.getTextBounds(
-                mList[index].text,
+                list[index].text,
                 0,
-                mList[index].text.length,
+                list[index].text.length,
                 bounds
             )
             maxWidth = max(maxWidth, bounds.width())
@@ -181,55 +181,49 @@ class PasswordMeterView : View {
         return maxWidth
     }
 
-    data class State(
-        val text: String,
-        @ColorInt val color: Int,
-        val tintSize: Int
-    )
-
-    fun setStrengthSelectedIndex(state: Int) {
-        mStrengthSelectedIndex = state
+    fun setSelectedIndex(state: Int) {
+        selectedIndex = state
         requestLayout()
     }
 
     fun setTextFontStyle(font: String){
-        mTextFontStyle = font
+        textFontStyle = font
     }
 
-    fun setStrengthBarHeight(value: Float){
-        mStrengthBarHeight = value;
+    fun setBarHeight(value: Float){
+        barHeight = value;
     }
 
-    fun setStrengthBarRadius(radius: Int){
-        mStrengthBarRadius = radius
+    fun setBarRadius(radius: Int){
+        barRadius = radius
     }
 
-    fun setStrengthCountSize(size: Int) {
-        mStrengthCountSize = size
+    fun setCountSize(size: Int) {
+        barCountSize = size
     }
 
     fun setTextPaddingStart(value: Float) {
-        mTextPaddingStart = value * density
+        textPaddingStart = value * density
     }
 
     fun setList(color: List<State>) {
-        mList = color
+        list = color
     }
 
-    fun setStrengthBarsTintColor(color: Int) {
-        mStrengthBarsTintColor = color
+    fun setBarsTintColor(color: Int) {
+        barsTintColor = color
     }
 
-    fun setStrengthBarWidth(value: Int) {
-        mStrengthBarWidth = value
+    fun setBarWidth(value: Int) {
+        barWidth = value
     }
 
-    fun setStrengthBarSpacer(value: Int) {
-        mStrengthBarSpacer = value
+    fun setBarSpace(value: Int) {
+        barSpace = value
     }
 
-    fun setStrengthTextHeight(value: Int) {
-        mStrengthTextHeight = value
+    fun setTextHeight(value: Int) {
+        textHeight = value
     }
 
 }
