@@ -2,8 +2,7 @@
 A UI component that displays password strength on registration and change password screens.
 
 # GIF
-<img src="https://github.com/ihaydinn/PasswordMeter/blob/master/screen/screen.gif" width="156" height="275">
-# Information
+<img src="https://github.com/ihaydinn/PasswordMeter/blob/master/screen/screen.gif" width="300" height="80">
 
 # Import
 ```
