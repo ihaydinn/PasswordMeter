@@ -28,7 +28,7 @@ class PasswordMeterView : View {
 
     private val density = resources.displayMetrics.density
 
-    constructor(context: Context?) : super(context) {}
+    constructor(context: Context?) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         init(context, attrs)
     }
@@ -44,7 +44,7 @@ class PasswordMeterView : View {
 
         for (i in 0 until barCountSize) {
             paint?.textSize = TEXT_HEIGHT
-            paint?.setTypeface(Typeface.createFromAsset(context.assets, textFontStyle))
+            paint?.typeface = Typeface.createFromAsset(context.assets, textFontStyle)
             if (i < list[selectedIndex].tintSize) {
                 paint?.color = list[selectedIndex].color
             } else {
@@ -71,7 +71,6 @@ class PasswordMeterView : View {
                 )
             }
         }
-
         requestLayout()
         super.onDraw(canvas)
     }
@@ -89,6 +88,7 @@ class PasswordMeterView : View {
     }
 
 
+    @SuppressLint("DrawAllocation")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
@@ -139,12 +139,14 @@ class PasswordMeterView : View {
         val values =
             context.theme.obtainStyledAttributes(attrs, R.styleable.StrengthPasswordView, 0, 0)
 
-        barCountSize = values.getInt(R.styleable.StrengthPasswordView_cv_strength_count_size,5)
+        barCountSize = values.getInt(R.styleable.StrengthPasswordView_cv_strength_count_size, 5)
         barRadius = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_radius, 20)
         barWidth = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_width, 10)
         barSpace = values.getInt(R.styleable.StrengthPasswordView_cv_strength_bar_spacer_size, 6)
-        textHeight = values.getInt(R.styleable.StrengthPasswordView_cv_strength_text_height_value, 14)
-        textPaddingStart = values.getFloat(R.styleable.StrengthPasswordView_cv_strength_text_start_padding, 8f)
+        textHeight =
+            values.getInt(R.styleable.StrengthPasswordView_cv_strength_text_height_value, 14)
+        textPaddingStart =
+            values.getFloat(R.styleable.StrengthPasswordView_cv_strength_text_start_padding, 8f)
         barHeight = values.getFloat(R.styleable.StrengthPasswordView_cv_strength_bar_height, 3f)
 
         values.recycle()
@@ -152,7 +154,7 @@ class PasswordMeterView : View {
 
     private fun getMaxTextHeight(): Int {
         var maxHeight = 0
-        list.forEachIndexed { index, state ->
+        list.forEachIndexed { index, _ ->
             val bounds = Rect()
             paint?.getTextBounds(
                 list[index].text,
@@ -168,7 +170,7 @@ class PasswordMeterView : View {
     var maxWidth = 0
     private fun getMaxTextWidth(): Int {
 
-        list.forEachIndexed { index, state ->
+        list.forEachIndexed { index, _ ->
             val bounds = Rect()
             paint?.getTextBounds(
                 list[index].text,
@@ -186,15 +188,15 @@ class PasswordMeterView : View {
         requestLayout()
     }
 
-    fun setTextFontStyle(font: String){
+    fun setTextFontStyle(font: String) {
         textFontStyle = font
     }
 
-    fun setBarHeight(value: Float){
+    fun setBarHeight(value: Float) {
         barHeight = value;
     }
 
-    fun setBarRadius(radius: Int){
+    fun setBarRadius(radius: Int) {
         barRadius = radius
     }
 
@@ -225,5 +227,4 @@ class PasswordMeterView : View {
     fun setTextHeight(value: Int) {
         textHeight = value
     }
-
 }

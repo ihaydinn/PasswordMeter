@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         val strengthView = findViewById<PasswordMeterView>(R.id.cvPasswordMeter)
         val etContent = findViewById<EditText>(R.id.etContent)
 
@@ -49,12 +48,9 @@ class MainActivity : AppCompatActivity() {
         strengthView.setList(states)
 
         etContent.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(value: Editable?) {
                 value.let {
