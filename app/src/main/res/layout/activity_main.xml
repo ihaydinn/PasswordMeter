@@ -11,18 +11,18 @@
         android:id="@+id/etContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Your Input"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="@string/your_input"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cvPasswordMeter" />
 
     <com.ihaydin.passwordmeter.PasswordMeterView
         android:id="@+id/cvPasswordMeter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/etContent"/>
+        app:layout_constraintEnd_toEndOf="@id/etContent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

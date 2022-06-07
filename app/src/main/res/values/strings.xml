@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PasswordMeter</string>
+    <string name="your_input">Your Input</string>
 </resources>
